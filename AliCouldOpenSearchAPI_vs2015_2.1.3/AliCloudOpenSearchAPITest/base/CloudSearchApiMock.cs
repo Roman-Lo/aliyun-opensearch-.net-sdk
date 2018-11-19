@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Threading.Tasks;
 using AliCloudOpenSearch.com.API;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

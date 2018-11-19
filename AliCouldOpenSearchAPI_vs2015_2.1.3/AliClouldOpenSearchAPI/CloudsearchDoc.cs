@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Web;
@@ -297,11 +299,35 @@ namespace AliCloudOpenSearch.com.API
         /// </summary>
         /// <param name="docIds">Doc ids which will be deleted</param>
         public CloudsearchDoc Remove(params string[] docIds)
+        { 
+            //Utilities.Guard(docIds);
+
+            //foreach (var docId in docIds)
+            //{
+            //    var doc = new Dictionary<string, object>();
+            //    doc["cmd"] = "delete";
+            //    doc["fields"] = new { id = docId };
+
+            //    _batchExecuteCachedDocs.Add(doc);
+            //}
+            return Remove("id", docIds.ToList());
+        }
+
+        /// <summary>
+        ///  Add the doc ids which will be deleted untill push()
+        /// </summary>
+        /// <param name="pkField"></param>
+        /// <param name="docIds"></param>
+        /// <returns></returns>
+        public CloudsearchDoc Remove(string pkField, List<string> docIds)
         {
             Utilities.Guard(docIds);
 
             foreach (var docId in docIds)
             {
+                dynamic fields = new ExpandoObject();
+                fields[pkField] = docId;
+
                 var doc = new Dictionary<string, object>();
                 var fields = new Dictionary<string, object>();
                 fields["id"] = docId;
